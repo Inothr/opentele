@@ -2,7 +2,7 @@
 
 # opentele
 
-> Fork of [thedemons/opentele](https://github.com/thedemons/opentele) with Python 3.13 compatibility and updated device spoofing.
+> Fork of [thedemons/opentele](https://github.com/thedemons/opentele) with Python 3.13 compatibility, updated device spoofing and QR Code login.
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/thedemons/opentele/main/opentele.png" alt="logo" width="180"/>
@@ -34,6 +34,11 @@ A **Python Telegram API Library** for converting between **tdata** and **teletho
 - Fixed `crossDelete` in `utils.py` to handle new dunder attributes introduced in Python 3.13 (`__firstlineno__`, `__static_attributes__`, `__dict__`, `__weakref__`, `__qualname__`)
 - Fixed `_on_login` calls in `tl/telethon.py` that broke under Python 3.13's coroutine handling
 - Removed deprecated TDesktop storage keys (`customEmoji`, `searchSuggestions`, `webviewTokens`) that caused parsing errors with recent tdata versions
+
+### QR Code login
+- Added a new session creation method via QR Code scan, no need to convert tdata or existing session files
+- The app generates a QR code in the terminal, the user scans it from the official Telegram app on their phone, and the session is authorized automatically
+- Supports 2FA (two-factor authentication) if enabled on the account
 
 ### Updated device spoofing logic
 - Replaced the hardcoded device list with a structured system that maps **real Android SDK versions** to **devices that officially support that version**
@@ -70,6 +75,7 @@ If you have been using opentele for a while, I appreciate it, please consider co
 - [telethon](https://github.com/LonamiWebs/Telethon) - Widely used Telegram's API library for Python.
 - [tgcrypto](https://github.com/pyrogram/tgcrypto) - AES-256-IGE encryption to works with `tdata`.
 - [pyQt5](https://www.riverbankcomputing.com/software/pyqt/) - Used by Telegram Desktop to streams data from files.
+- [qrcode](https://github.com/lincolnloop/python-qrcode) - QR code generation for terminal-based login.
 
 ## Installation
 - Install from [PyPI](https://pypi.org/project/opentele/):
@@ -111,6 +117,61 @@ async def main():
 asyncio.run(main())
 ```
 
+## QR Code Login (New)
+Create a session by scanning a QR code from the official Telegram app. No tdata or session file conversion needed.
+```python
+from opentele.tl import TelegramClient
+from opentele.api import API
+from telethon.errors import SessionPasswordNeededError
+from getpass import getpass
+import qrcode
+import asyncio
+import os
+
+async def main():
+    os.makedirs("sessions", exist_ok=True)
+    session_path = "sessions/my_account.session"
+    api = API.TelegramAndroid.Generate(unique_id=session_path)
+    client = TelegramClient(session_path, api=api)
+
+    await client.connect()
+
+    if await client.is_user_authorized():
+        print("Session already authorized.")
+        await client.disconnect()
+        return
+
+    qr_login = await client.qr_login()
+
+    # Generates a QR code in the terminal
+    qr = qrcode.QRCode(border=1)
+    qr.add_data(qr_login.url)
+    qr.make(fit=True)
+    print("\nScan this QR from Telegram on your phone:\n")
+    qr.print_ascii(invert=True)
+
+    try:
+        await qr_login.wait()
+    except SessionPasswordNeededError:
+        password = getpass("2FA Password: ")
+        await client.sign_in(password=password)
+
+    if await client.is_user_authorized():
+        print("Session created successfully.")
+        me = await client.get_me()
+        if me:
+            print(f"User: {me.id} | {me.first_name}")
+        await client.PrintSessions()
+    else:
+        print("Could not authorize the session.")
+
+    await client.disconnect()
+
+asyncio.run(main())
+```
+
+> **Note:** Requires `qrcode` package: `pip install qrcode`
+
 ## Authorization
 **opentele** offers the ability to use **official APIs**, which are used by official apps. You can check that out [here](https://opentele.readthedocs.io/en/latest/documentation/authorization/api/#class-api).
 <br>
@@ -125,6 +186,7 @@ Therefore, **there are no differences** between using opentele and official apps
 ## Incoming Features
 - [x] Writing data to tdata for converting telethon sessions to tdesktop.
 - [x] Random device information for [initConnection](https://core.telegram.org/method/initConnection) to avoid spam-detection.
+- [x] QR Code login without tdata or session conversion.
 - [ ] Add support for [pyrogram](https://github.com/pyrogram/pyrogram).
 - [ ] Develop opentele-tui using [textual](https://github.com/Textualize/textual) for non-experience user.
 
