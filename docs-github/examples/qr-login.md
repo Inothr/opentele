@@ -1,3 +1,4 @@
+
 # QR Code Login
 This example will show you how to create a session by scanning a QR code from the official Telegram app. No tdata or session file conversion needed.
 
