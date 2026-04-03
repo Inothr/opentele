@@ -42,8 +42,8 @@ A **Python Telegram API Library** for converting between **tdata** and **teletho
 
 ### Updated device spoofing logic
 - Replaced the hardcoded device list with a structured system that maps **real Android SDK versions** to **devices that officially support that version**
-- Each SDK version carries a set of real devices that were released with or updated to that Android version
-- Updated default SDK from 31 to 32 and app version from `8.4.1` to `12.5.1` to match current official Telegram Android
+- Each Android version (Android 13/SDK 33, Android 14/SDK 34, Android 15/SDK 35) is mapped to real devices that were officially released or updated to that version
+- Updated app version from `8.4.1` to `12.5.1` to match current official Telegram Android
 - Added `DeviceInfo.to_dict()` and `DeviceInfo.from_dict()` methods for serialization
 - Added `ResolveDevice()` method that allows passing a specific device instead of always randomizing
 
