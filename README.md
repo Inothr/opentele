@@ -55,8 +55,6 @@ A **Python Telegram API Library** for converting between **tdata** and **teletho
 | Platform | Status |
 | --- | --- |
 | **Linux** | ✅ Tested on Python 3.13 |
-| **Windows** | ⚠️ Should work, not fully tested yet |
-| **macOS** | ⚠️ Should work, not fully tested yet |
 
 ---
 
