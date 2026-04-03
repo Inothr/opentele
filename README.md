@@ -2,6 +2,8 @@
 
 # opentele
 
+> Fork of [thedemons/opentele](https://github.com/thedemons/opentele) with Python 3.13 compatibility and updated device spoofing.
+
 <p align="center">
 <img src="https://raw.githubusercontent.com/thedemons/opentele/main/opentele.png" alt="logo" width="180"/>
 <br><br>
@@ -23,6 +25,35 @@
 <br>
 
 A **Python Telegram API Library** for converting between **tdata** and **telethon** sessions, with built-in **official Telegram APIs**. [**Read the documentation**](https://opentele.readthedocs.io/en/latest/documentation/telegram-desktop/tdesktop/).
+
+---
+
+## What's changed from the original
+
+### Python 3.13 compatibility
+- Fixed `crossDelete` in `utils.py` to handle new dunder attributes introduced in Python 3.13 (`__firstlineno__`, `__static_attributes__`, `__dict__`, `__weakref__`, `__qualname__`)
+- Fixed `_on_login` calls in `tl/telethon.py` that broke under Python 3.13's coroutine handling
+- Removed deprecated TDesktop storage keys (`customEmoji`, `searchSuggestions`, `webviewTokens`) that caused parsing errors with recent tdata versions
+
+### Updated device spoofing logic
+- Replaced the hardcoded device list with a structured system that maps **real Android SDK versions** to **devices that officially support that version**
+- Each SDK version carries a set of real devices that were released with or updated to that Android version
+- Updated default SDK from 31 to 32 and app version from `8.4.1` to `12.5.1` to match current official Telegram Android
+- Added `DeviceInfo.to_dict()` and `DeviceInfo.from_dict()` methods for serialization
+- Added `ResolveDevice()` method that allows passing a specific device instead of always randomizing
+
+### Other changes
+- Changed `isinstance` check to `type()` comparison in `APIData.__eq__` to avoid false positives with subclasses
+
+### Platform support
+
+| Platform | Status |
+| --- | --- |
+| **Linux** | ✅ Tested on Python 3.13 |
+| **Windows** | ⚠️ Should work, not fully tested yet |
+| **macOS** | ⚠️ Should work, not fully tested yet |
+
+---
 
 # NOTICE
 Unfortunately, due to the lack of interest, I can no longer maintain this project and keep it up-to-date with the latest version of Telegram Desktop and Telethon.
