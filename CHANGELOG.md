@@ -9,8 +9,8 @@ All notable changes to this project will be documented in this file.
   - Removed deprecated TDesktop storage keys (`customEmoji`, `searchSuggestions`, `webviewTokens`)
   - Fixed `event_loop` deprecation in `tdata_test.py`
 - **QR Code login:** Added session creation via QR code scan from the official Telegram app, no tdata or session conversion needed. Supports 2FA.
-- **Updated device spoofing:** Replaced hardcoded device list with structured SDK-to-device mapping using real Android versions and devices. Updated default SDK to 32 and app version to `12.5.1`.
-- **New methods:** `DeviceInfo.to_dict()`, `DeviceInfo.from_dict()`, `ResolveDevice()`
+- **Redesigned device spoofing:** Replaced hardcoded device list with structured SDK-to-device mapping. Each SDK version (32, 33, 34, 35) is mapped to real devices that officially support that Android version. Updated app version to `12.5.1` to match current official Telegram Android.
+- **New methods:** `DeviceInfo.to_dict()`, `DeviceInfo.from_dict()`, `ResolveDevice()`, `FindDevice()`, `GetDevices()`, `GetDevicesBySdk()`, `LoadDeviceConfig()`, `SaveDeviceConfig()`
 - **Other:** Changed `isinstance` to `type()` in `APIData.__eq__`, added `qrcode` dependency.
 
 ## [v1.15](https://pypi.org/project/opentele/1.15/) - 2022-01-27
