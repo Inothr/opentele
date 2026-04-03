@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
   - Removed deprecated TDesktop storage keys (`customEmoji`, `searchSuggestions`, `webviewTokens`)
   - Fixed `event_loop` deprecation in `tdata_test.py`
 - **QR Code login:** Added session creation via QR code scan from the official Telegram app, no tdata or session conversion needed. Supports 2FA.
-- **Redesigned device spoofing:** Replaced hardcoded device list with structured SDK-to-device mapping. Each SDK version (32, 33, 34, 35) is mapped to real devices that officially support that Android version. Updated app version to `12.5.1` to match current official Telegram Android.
+- **Redesigned device spoofing:** Replaced hardcoded device list with structured SDK-to-device mapping. Each SDK version (33, 34, 35) is mapped to real devices that officially support that Android version. Updated app version to `12.5.1` to match current official Telegram Android.
 - **New methods:** `DeviceInfo.to_dict()`, `DeviceInfo.from_dict()`, `ResolveDevice()`, `FindDevice()`, `GetDevices()`, `GetDevicesBySdk()`, `LoadDeviceConfig()`, `SaveDeviceConfig()`
 - **Other:** Changed `isinstance` to `type()` in `APIData.__eq__`, added `qrcode` dependency.
 
