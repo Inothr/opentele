@@ -446,8 +446,6 @@ class AndroidDevice(SystemInfo):
 
     system_versions = ["SDK 33", "SDK 34", "SDK 35"]
 
-    # Listas separadas por SDK para evitar mezclar modelos con versiones falsas.
-    # Cada entrada representa un par realista de "modelo técnico + SDK".
     device_models_by_sdk = {
         "SDK 33": [
             "Samsung SM-A536B",  # Galaxy A53 5G
