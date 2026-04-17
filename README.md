@@ -75,6 +75,25 @@ If you have been using opentele for a while, I appreciate it, please consider co
 - [pyQt5](https://www.riverbankcomputing.com/software/pyqt/) - Used by Telegram Desktop to streams data from files.
 - [qrcode](https://github.com/lincolnloop/python-qrcode) - QR code generation for terminal-based login.
 
+---
+
+## ⚠️ Warning
+
+This tool uses Telegram's official authentication. It must be properly configured.
+
+The following actions may cause Telegram to freeze your accounts:
+
+- Manually defining `API_ID` and `API_HASH` (the tool already manages these)
+- Making rapid or repeated authentication attempts
+- Using a different connection method or device than the one used to create the session
+- Mixing different Telegram clients or libraries
+- Logging in with multiple accounts from the same IP address or device
+- Using new virtual numbers or numbers with no prior activity
+
+Notes:
+- If you created a session with an official device (e.g., Android), you must continue using that same method for that session
+- Using your own `API_ID` and `API_HASH` may cause authentication inconsistencies
+
 ## Installation
 - Install from [PyPI](https://pypi.org/project/opentele/):
 ```pip title="pip"
@@ -197,3 +216,11 @@ The best way to learn anything is by looking at the examples. Am I right?
 ## Documentation [![documentation](https://readthedocs.org/projects/opentele/badge/?version=latest&style=flat)](https://opentele.readthedocs.io/)
 - Read documentation on [readthedocs](https://opentele.readthedocs.io/en/latest/documentation/telegram-desktop/tdesktop/)
 - Read documentation on [github](https://github.com/thedemons/opentele/tree/main/docs-github)
+
+
+
+- Usa siempre el cliente proporcionado por esta librería (`opentele`)
+
+Úsala bajo tu propia responsabilidad.
+
+---
